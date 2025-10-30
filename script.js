@@ -134,3 +134,228 @@ const ex11 = () => {
 
   alert(esPositivo(num));
 };
+
+const ex12 = () => {
+  const componerTransformaciones = (func1, func2) => {
+    return function (texto) {
+      return func1(func2(texto));
+    };
+  };
+
+  const signo = (texto) => {
+    return texto + "!";
+  };
+
+  const mayusculas = (texto) => {
+    return texto.toUpperCase();
+  };
+
+  const transformar = componerTransformaciones(signo, mayusculas);
+
+  let frase = prompt("Digite una frase");
+  alert(transformar(frase));
+};
+
+const ex13 = () => {
+  const procesarTexto = (texto) => {
+    const limpiarEspacios = (texto) => {
+      return texto.replaceAll(" ", "");
+    };
+
+    const contarPalabras = (texto) => {
+      let espacio = false;
+      let palabras = 0;
+      if (texto.length > 0) {
+        palabras = 1;
+      }
+      for (let c of texto) {
+        if (!espacio && c == " ") {
+          espacio = true;
+          palabras++;
+        } else if (c != " ") {
+          espacio = false;
+        }
+      }
+      return palabras;
+    };
+
+    return [limpiarEspacios(texto), contarPalabras(texto)];
+  };
+
+  let frase = prompt("Digite una frase");
+  alert(procesarTexto(frase));
+};
+
+const ex14 = () => {
+  const operacionesMatematicas = (operacion, a = 0, b = 0) => {
+    const sumar = (num1 = a, num2 = b) => num1 + num2;
+    const resta = (num1 = a, num2 = b) => num1 - num2;
+    const multi = (num1 = a, num2 = b) => num1 * num2;
+    const divid = (num1 = a, num2 = b) =>
+      num2 != 0 ? num1 / num2 : "No se puede dividir entre 0";
+
+    switch (operacion) {
+      case "s":
+        return sumar;
+      case "r":
+        return resta;
+      case "m":
+        return multi;
+      case "d":
+        return divid;
+      default:
+        return "No es válido";
+    }
+  };
+  const sumar = operacionesMatematicas("s");
+  const resta = operacionesMatematicas("r", 4, 5);
+  alert(sumar(3, 5));
+  alert(resta());
+  alert(resta(2, 5));
+};
+
+const ex15 = () => {
+  const crearContador = () => {
+    let n = 0;
+    return [
+      function () {
+        n++;
+        return n;
+      },
+      function () {
+        n = 0;
+        return n;
+      },
+    ];
+  };
+  let [incrementar, resetear] = crearContador();
+  alert(incrementar());
+  alert(resetear());
+  alert(incrementar());
+};
+
+const ex16 = () => {
+  const acumulador = (valorInicial) => {
+    return function (x) {
+      valorInicial += x;
+      return valorInicial;
+    };
+  };
+
+  const inicio5 = acumulador(5);
+  alert(inicio5(10));
+  alert(inicio5(25));
+};
+
+const ex17 = () => {
+  const saludo = (nombre = "Amigo") => {
+    alert(`Hola ${nombre}`);
+  };
+
+  saludo();
+  saludo("j0tar");
+};
+
+const ex18 = () => {
+  const media = (...numeros) => {
+    let suma = 0;
+    for (let num of numeros) {
+      suma += num;
+    }
+    return suma / numeros.length;
+  };
+
+  alert(media(3, 4, 5, 6));
+  alert(media(1, 2, 3, 4));
+};
+
+const ex19 = () => {
+  const mostrarDatos = (nombre, edad, ...hobbies) => {
+    let output = "Mi nombre es: " + nombre;
+    output += "\nMi edad es: " + edad + "\nMis hobbies son:\n";
+    for (let hobbie of hobbies) {
+      output += hobbie + "\n";
+    }
+    return output;
+  };
+
+  alert(mostrarDatos("Josue", 18, "Programar", "Jugar", "Caminar"));
+};
+
+const ex20 = () => {
+  const ejecutarOperacion = (fn, x, y) => {
+    return fn(x, y);
+  };
+  const sumar = (a, b) => a + b;
+  const resta = (a, b) => a - b;
+
+  alert(ejecutarOperacion(sumar, 4, 5));
+  alert(ejecutarOperacion(resta, 4, 5));
+};
+
+const ex21 = () => {
+  const filtrarArreglo = (arr, callback) => {
+    let output = [];
+    let i = 0;
+    for (item of arr) {
+      if (callback(item)) {
+        output[i] = item;
+        i++;
+      }
+    }
+    return output;
+  };
+
+  const filtro = (item) => {
+    if (item > 6) {
+      return true;
+    }
+    return false;
+  };
+
+  alert(filtrarArreglo([3, 4, 5, 6, 7, 2, 1, 9], filtro));
+};
+
+const ex22 = () => {
+  const descargarArchivo = (url, callback) => {
+    alert("Descargando...");
+    callback(url);
+  };
+
+  const descarga = (url) => {
+    alert("Descarga completa de " + url);
+  };
+
+  descargarArchivo("https://www.J0tar.com", descarga);
+};
+
+const ex23 = () => {
+  const elevar = (base, exponente) => {
+    if (exponente == 0) {
+      return 1;
+    } else if (exponente > 0) {
+      return base * elevar(base, exponente - 1);
+    } else {
+      return 1 / elevar(base, exponente * -1);
+    }
+  };
+
+  alert(elevar(3, 4));
+  alert(elevar(3, -4));
+};
+
+const ex24 = () => {
+  const crearSecuencia = (inicio, paso) => {
+    inicio -= paso;
+    return function () {
+      inicio += paso;
+      return inicio;
+    };
+  };
+
+  const secuencia = crearSecuencia(2, 3);
+  alert(secuencia());
+  alert(secuencia());
+  alert(secuencia());
+  alert(secuencia());
+};
